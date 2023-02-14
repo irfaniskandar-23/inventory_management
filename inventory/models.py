@@ -14,7 +14,7 @@ class Supplier(models.Model):
         return self.name
 
 
-class inventory(models.Model):
+class Inventory(models.Model):
     inventory_id = models.AutoField(primary_key=True)
     name = models.CharField(max_length=100, blank=False, default='')
     description = models.CharField(max_length=200, blank=False, default='')
@@ -22,7 +22,7 @@ class inventory(models.Model):
     stock = models.IntegerField()
     availability = models.BooleanField(default=False)
     supplier = models.ForeignKey(
-        Supplier, default=1, verbose_name='Supplier', on_delete=models.CASCADE)  # Foregin Key relationship with supplier
+        Supplier, default=1, verbose_name='Supplier', on_delete=models.CASCADE)  # Foreign Key relationship with supplier
 
     class Meta:
         verbose_name_plural = 'Inventory'
