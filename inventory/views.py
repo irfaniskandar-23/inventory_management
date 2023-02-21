@@ -34,6 +34,7 @@ class DetailedInventoryMixins(mixins.RetrieveModelMixin,
                               mixins.UpdateModelMixin,
                               mixins.DestroyModelMixin,
                               generics.GenericAPIView):
+
     queryset = Inventory.objects.all()
     serializer_class = inventorySerializer
 
@@ -48,17 +49,10 @@ class DetailedInventoryMixins(mixins.RetrieveModelMixin,
 
 
 def inventories(request):
-
-    inventory = requests.get('http://127.0.0.1:8000/api/inventory/').json()
-    return render(request, 'inventory.html', {'response': inventory})
+    response = requests.get('http://127.0.0.1:8000/api/inventory/').json()
+    return render(request, 'inventory.html', {'response': response})
 
 
 def ViewInventoryDetail(request, pk):
-    response = requests.get(f'http://127.0.0.1:8000/api/inventory/{pk}')
-    data = response.json()
-
-    if response.status_code == 200:
-        return render(request, 'inventory_detail.html', {'response': data}, status=status.HTTP_200_OK)
-
-    else:
-        raise Http404
+    response = requests.get(f'http://127.0.0.1:8000/api/inventory/{pk}').json()
+    return render(request, 'inventory_detail.html', {'response': response}, status=status.HTTP_200_OK)
