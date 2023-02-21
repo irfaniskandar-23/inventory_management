@@ -1,7 +1,7 @@
 from django.shortcuts import render
 from django.http import Http404
-from inventory.models import Supplier, Inventory
-from inventory.serializers import supplierSerializer, inventorySerializer
+from inventory.models import Inventory
+from inventory.serializers import inventorySerializer
 
 
 from rest_framework import status
@@ -10,12 +10,17 @@ from rest_framework import generics
 import requests
 
 
-class ListInventoriesMixins(mixins.ListModelMixin, generics.GenericAPIView):
+class ListInventoriesMixins(mixins.ListModelMixin,
+                            mixins.CreateModelMixin,
+                            generics.GenericAPIView):
     queryset = Inventory.objects.all()
     serializer_class = inventorySerializer
 
     def get(self, request, *args, **kwargs):
         return self.list(request, *args, **kwargs)
+
+    def post(self, request, *args, **kwargs):
+        return self.create(request, *args, **kwargs)
 
     def get_queryset(self):
         queryset = Inventory.objects.all()
@@ -26,6 +31,8 @@ class ListInventoriesMixins(mixins.ListModelMixin, generics.GenericAPIView):
 
 
 class DetailedInventoryMixins(mixins.RetrieveModelMixin,
+                              mixins.UpdateModelMixin,
+                              mixins.DestroyModelMixin,
                               generics.GenericAPIView):
     queryset = Inventory.objects.all()
     serializer_class = inventorySerializer
@@ -33,10 +40,16 @@ class DetailedInventoryMixins(mixins.RetrieveModelMixin,
     def get(self, request, *args, **kwargs):
         return self.retrieve(request, *args, **kwargs)
 
+    def put(self, request, *args, **kwargs):
+        return self.update(request, *args, **kwargs)
+
+    def delete(self, request, *args, **kwargs):
+        return self.destroy(request, *args, **kwargs)
+
 
 def inventories(request):
-    
-    inventory = requests.get('http://127.0.0.1:8000/api/inventories/').json()
+
+    inventory = requests.get('http://127.0.0.1:8000/api/inventory/').json()
     return render(request, 'inventory.html', {'response': inventory})
 
 

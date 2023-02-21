@@ -6,12 +6,13 @@ class supplierSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Supplier
-        fields = '__all__'
+        fields = ('name')
 
 
 class inventorySerializer(serializers.ModelSerializer):
-    supplier = serializers.StringRelatedField()
 
     class Meta:
         model = Inventory
-        fields = '__all__'
+        fields = ('name', 'description', 'note',
+                  'stock', 'availability', 'supplier')
+        lookup_field = 'supplier'

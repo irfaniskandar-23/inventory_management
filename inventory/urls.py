@@ -11,7 +11,7 @@ check for default router from documentation
 '''
 
 urlpatterns = [
-    path('api/inventories/', views.ListInventoriesMixins.as_view(), name='inventories'),
+    path('api/inventory/', views.ListInventoriesMixins.as_view(), name='inventories'),
     path('api/inventory/<int:pk>/',
          views.DetailedInventoryMixins.as_view(), name='inventory_detail'),
     path('inventory/', views.inventories, name='inventories_view'),
