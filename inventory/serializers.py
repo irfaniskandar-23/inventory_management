@@ -1,16 +1,17 @@
 from rest_framework import serializers
-from inventory.models import Supplier, inventory
-
-
-class inventorySerializer(serializers.ModelSerializer):
-    # supplier_name = serializers.CharField(source='supplier.name')
-
-    class Meta:
-        model = 'Inventory'
-        fields = '__all__'
+from inventory.models import Supplier, Inventory
 
 
 class supplierSerializer(serializers.ModelSerializer):
+
     class Meta:
-        model = 'Supplier'
+        model = Supplier
+        fields = '__all__'
+
+
+class inventorySerializer(serializers.ModelSerializer):
+    supplier = serializers.StringRelatedField()
+
+    class Meta:
+        model = Inventory
         fields = '__all__'

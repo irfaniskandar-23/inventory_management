@@ -8,10 +8,11 @@ class Supplier(models.Model):
     name = models.CharField(max_length=100, blank=False, default='')
 
     class Meta:
-        verbose_name_plural = 'Supppliers'
+
+        db_table = 'suppliers'
 
     def __str__(self):
-        return self.name
+        return '%s' % (self.name)
 
 
 class Inventory(models.Model):
@@ -19,13 +20,13 @@ class Inventory(models.Model):
     name = models.CharField(max_length=100, blank=False, default='')
     description = models.CharField(max_length=200, blank=False, default='')
     note = models.TextField()
-    stock = models.IntegerField()
-    availability = models.BooleanField(default=False)
+    stock = models.IntegerField(default=1)
+    availability = models.BooleanField(default=True)
     supplier = models.ForeignKey(
-        Supplier, default=1, verbose_name='Supplier', on_delete=models.CASCADE)  # Foreign Key relationship with supplier
+        Supplier, on_delete=models.CASCADE)  # Foreign Key relationship with supplier
 
     class Meta:
-        verbose_name_plural = 'Inventory'
+        db_table = 'inventories'
 
     def __str__(self):
-        return self.name
+        return '%s' % (self.name)
